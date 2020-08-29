@@ -1,25 +1,27 @@
 package io.zipcoder.persistenceapp.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long employeeId;
     private String firstName;
     private String lastName;
     private String title;
     private String phoneNumber;
     private String email;
     private LocalDate hireDate;
+    //@ManyToOne
     private Employee manager;
     private Long departmentId;
+    /*
+    @OneToMany(targetEntity = Employee.class, mappedBy = "employee")
+    private Set<Employee> managedEmployees;*/
 
     public Employee(){
         this(null,null,null,null,null,null,null,null,null);
@@ -29,8 +31,8 @@ public class Employee {
         this(null,firstName,lastName,title,phoneNumber,email,hireDate,manager,departmentId);
     }
 
-    public Employee(Long id, String firstName, String lastName, String title, String phoneNumber, String email, LocalDate hireDate, Employee manager, Long departmentId) {
-        this.id = id;
+    public Employee(Long employeeId, String firstName, String lastName, String title, String phoneNumber, String email, LocalDate hireDate, Employee manager, Long departmentId) {
+        this.employeeId = employeeId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.title = title;
@@ -41,12 +43,12 @@ public class Employee {
         this.departmentId = departmentId;
     }
 
-    public Long getId() {
-        return id;
+    public Long getEmployeeId() {
+        return employeeId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
     }
 
     public String getFirstName() {
