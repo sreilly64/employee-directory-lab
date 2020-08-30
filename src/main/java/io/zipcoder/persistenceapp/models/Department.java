@@ -7,23 +7,25 @@ public class Department {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "department_id")
     private Long departmentId;
+    @Column(name = "name")
     private String name;
-    @OneToOne
-    private Employee manager;
+    @Column(name = "manager_employee_id")
+    private Long managerId;
 
     public Department(){
         this(null,null,null);
     }
 
-    public Department(String name, Employee manager) {
-        this(null,name,manager);
+    public Department(String name, Long managerId) {
+        this(null,name, managerId);
     }
 
-    public Department(Long departmentId, String name, Employee manager) {
+    public Department(Long departmentId, String name, Long managerId) {
         this.departmentId = departmentId;
         this.name = name;
-        this.manager = manager;
+        this.managerId = managerId;
     }
 
     public Long getDepartmentId() {
@@ -42,11 +44,11 @@ public class Department {
         this.name = name;
     }
 
-    public Employee getManager() {
-        return manager;
+    public Long getManagerId() {
+        return managerId;
     }
 
-    public void setManager(Employee manager) {
-        this.manager = manager;
+    public void setManagerId(Long managerId) {
+        this.managerId = managerId;
     }
 }
