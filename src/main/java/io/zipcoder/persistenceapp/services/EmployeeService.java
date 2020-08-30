@@ -1,5 +1,6 @@
 package io.zipcoder.persistenceapp.services;
 
+import io.zipcoder.persistenceapp.models.Department;
 import io.zipcoder.persistenceapp.models.Employee;
 import io.zipcoder.persistenceapp.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,10 +99,30 @@ public class EmployeeService {
         return true;
     }
 
-    public List<Employee> getEmployeesByDepartment(Long departmentId) {
-        return employeeRepository.findAll()
+    public List<Employee> getEmployeesByDepartment(Department d) {
+        List<Employee> response = getAllReportsByManager(d.getManagerId());
+        response.add(findEmployeeById(d.getManagerId()));
+        return response;
+        /*return employeeRepository.findAll()
                 .stream()
                 .filter(e -> e.getDepartmentId() == departmentId)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
+    }
+
+    public Boolean deleteEmployeesByDepartment(Department d) {
+        List<Employee> employeesToDelete = getEmployeesByDepartment(d);
+        employeesToDelete.forEach(e -> deleteEmployeeById(e.getEmployeeId()));
+        return true;
+    }
+
+    public Boolean mergeDepartments(Department departmentOne, Department departmentTwo) {
+        Long managerOfTwoId = departmentTwo.getManagerId();
+        List<Employee> listOfReportsForManagerTwo = getAllReportsByManager(managerOfTwoId);
+        updateEmployeeManager(managerOfTwoId, departmentOne.getManagerId());
+        listOfReportsForManagerTwo.forEach(e -> {
+            e.setDepartmentId(departmentOne.getDepartmentId());
+            employeeRepository.save(e);
+        });
+        return true;
     }
 }

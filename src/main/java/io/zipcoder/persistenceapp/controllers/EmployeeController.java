@@ -154,15 +154,5 @@ public class EmployeeController {
         return new ResponseEntity<Boolean>(employeeService.deleteDirectReports(managerId), HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping(value = "/departments/{departmentId}/employees")
-    public @ResponseBody List<Employee> getEmployeesByDepartment(@PathVariable Long departmentId){
-        List<Employee> list = null;
-        try{
-            list = employeeService.getEmployeesByDepartment(departmentId);
-        }catch(Exception exception){
-            LOGGER.info(exception.getMessage(), exception);
-        }
-        return list;
-    }
 
 }

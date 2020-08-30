@@ -26,4 +26,8 @@ public class DepartmentService {
         department.setManagerId(d.getManagerId());
         return departmentRepository.save(department);
     }
+
+    public Department getDepartmentById(Long id) {
+        return departmentRepository.findOne(id);
+    }
 }
