@@ -145,13 +145,13 @@ public class EmployeeController {
     }
 
     @DeleteMapping(value = "/employees/{managerId}/all_reports")
-    public ResponseEntity<Boolean> deleteEmployeesUnderManager(@PathVariable Long managerId){
-        return new ResponseEntity<Boolean>(employeeService.deleteEmployeesUnderManager(managerId), HttpStatus.NO_CONTENT);
+    public ResponseEntity<Integer> deleteEmployeesUnderManager(@PathVariable Long managerId){
+        return new ResponseEntity<Integer>(employeeService.deleteEmployeesUnderManager(managerId), HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping(value = "/employees/{managerId}/direct_reports")
-    public ResponseEntity<Boolean> deleteDirectReports(@PathVariable Long managerId){
-        return new ResponseEntity<Boolean>(employeeService.deleteDirectReports(managerId), HttpStatus.NO_CONTENT);
+    public ResponseEntity<Integer> deleteDirectReports(@PathVariable Long managerId){
+        return new ResponseEntity<Integer>(employeeService.deleteDirectReports(managerId), HttpStatus.NO_CONTENT);
     }
 
 

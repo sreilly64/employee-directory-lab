@@ -1,6 +1,7 @@
 package io.zipcoder.persistenceapp.models;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class Department {
@@ -50,5 +51,20 @@ public class Department {
 
     public void setManagerId(Long managerId) {
         this.managerId = managerId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Department that = (Department) o;
+        return departmentId.equals(that.departmentId) &&
+                name.equals(that.name) &&
+                Objects.equals(managerId, that.managerId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(departmentId, name, managerId);
     }
 }

@@ -18,13 +18,19 @@ import java.util.List;
 public class DepartmentController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EmployeeController.class);
-    private DepartmentService departmentService;
-    @Autowired
+
     private EmployeeService employeeService;
 
+    public EmployeeService getEmployeeService() {
+        return employeeService;
+    }
+
+    private DepartmentService departmentService;
+
     @Autowired
-    public DepartmentController(DepartmentService departmentService){
+    public DepartmentController(DepartmentService departmentService, EmployeeService employeeService){
         this.departmentService = departmentService;
+        this.employeeService = employeeService;
     }
 
     @PostMapping(value = "/departments")
@@ -48,7 +54,6 @@ public class DepartmentController {
             LOGGER.info(exception.getMessage(), exception);
             return ResponseEntity.badRequest().build();
         }
-
         return new ResponseEntity<Department>(department, HttpStatus.OK);
     }
 
@@ -74,12 +79,12 @@ public class DepartmentController {
         }
         return list;
     }
-    //test this.. head manager survies? think this was fixed with getEbyD fix
+
     @DeleteMapping(value = "/departments/{departmentId}/employees")
     public ResponseEntity<Boolean> deleteEmployeesByDepartment(@PathVariable Long departmentId){
         return new ResponseEntity<Boolean>(employeeService.deleteEmployeesByDepartment(departmentService.getDepartmentById(departmentId)), HttpStatus.NO_CONTENT);
     }
-    //test this... almost works, reassigned employees chain of managers breaks. maybe fixed?
+
     @PutMapping(value = "/departments/{id1}/merge/{id2}")
     public ResponseEntity<Boolean> mergeDepartments(@PathVariable Long id1, @PathVariable Long id2){
         Boolean response = employeeService.mergeDepartments(departmentService.getDepartmentById(id1), departmentService.getDepartmentById(id2));

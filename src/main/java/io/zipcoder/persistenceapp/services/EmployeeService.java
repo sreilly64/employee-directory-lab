@@ -83,20 +83,20 @@ public class EmployeeService {
         return employee;
     }
 
-    public Boolean deleteEmployeesUnderManager(Long managerId) {
+    public Integer deleteEmployeesUnderManager(Long managerId) {
         List<Employee> employeesToRemove = getAllReportsByManager(managerId);
         employeesToRemove.forEach(e -> deleteEmployeeById(e.getEmployeeId()));
-        return true;
+        return employeesToRemove.size();
     }
 
-    public Boolean deleteDirectReports(Long managerId) {
+    public Integer deleteDirectReports(Long managerId) {
         List<Employee> employeesToRemove = getDirectReportsByManager(managerId);
         employeesToRemove.forEach(e ->{
             List<Employee> subordinates = getDirectReportsByManager(e.getEmployeeId());
             subordinates.forEach(s -> updateEmployeeManager(s.getEmployeeId(), managerId));
             deleteEmployeeById(e.getEmployeeId());
         });
-        return true;
+        return employeesToRemove.size();
     }
 
     public List<Employee> getEmployeesByDepartment(Department d) {
